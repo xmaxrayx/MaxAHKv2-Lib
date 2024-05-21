@@ -16,7 +16,7 @@ class musicPlayer {
     musicPlayer__PID := unset
     musicplayer__path := unset
 
-    start(path?, enableLoop := false, loopTime := 0 ) {
+    start(path?, enableLoop := false, loopTime := 0 , hide:= true , waitEnd := false) {
         musicPlayer__PID := ""
         if enableLoop == false
             enableLoop := 0
@@ -26,14 +26,23 @@ class musicPlayer {
         ;     path := this.musicplayer__path
         ; this.musicPlayer__PID
         
-        
+        if hide == true
+            hide__Opt := "Hide"
+        else
+            hide__Opt := "Show"
+
 
 
         global AHK__python_Musicplayer_py__path
         
         ; Run('"' s '"' ' "' path '"' ' "' enableLoop '"' ' "' loopTime '"' , , "Hide" ,&musicPlayer__PID )
-        Run('"' AHK__python_Musicplayer_py__path '"' ' "' path '"' ' "' enableLoop '"' ' "' loopTime '"' , , "Hide" ,&musicPlayer__PID )
+        Run('"' AHK__python_Musicplayer_py__path '"' ' "' path '"' ' "' enableLoop '"' ' "' loopTime '"' , , hide__Opt ,&musicPlayer__PID )
         this.musicPlayer__PID := musicPlayer__PID
+
+
+
+        if waitEnd == true
+            ProcessWaitClose(musicPlayer__PID)
         
 
 
