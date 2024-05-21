@@ -3,15 +3,13 @@
 
 
 ;===================================================================
-global AHK__python_Musicplayer__py__path := (RegExReplace(A_LineFile, "musicplayerV1\.ahk", ""))
+global AHK__python_Musicplayer_py__path := (RegExReplace(A_LineFile, "musicplayerV1\.ahk", ""))
 
-global AHK__python_Musicplayer__py__path .= "musicplayerV1.py"
+global AHK__python_Musicplayer_py__path .= "musicplayerV1.py"
 ;==============================================================
 ; MsgBox(A_LineFile)
 
  
-m := musicPlayer()
-m.start("C:\Users\Max_Laptop\Documents\Audacity\waiting for a window.wav")
 
 
 class musicPlayer {
@@ -31,10 +29,10 @@ class musicPlayer {
         
 
 
-        global AHK__python_Musicplayer__py__path
+        global AHK__python_Musicplayer_py__path
         
         ; Run('"' s '"' ' "' path '"' ' "' enableLoop '"' ' "' loopTime '"' , , "Hide" ,&musicPlayer__PID )
-        Run('"' AHK__python_Musicplayer__py__path '"' ' "' path '"' ' "' enableLoop '"' ' "' loopTime '"' , , "Hide" ,&musicPlayer__PID )
+        Run('"' AHK__python_Musicplayer_py__path '"' ' "' path '"' ' "' enableLoop '"' ' "' loopTime '"' , , "Hide" ,&musicPlayer__PID )
         this.musicPlayer__PID := musicPlayer__PID
         
 
