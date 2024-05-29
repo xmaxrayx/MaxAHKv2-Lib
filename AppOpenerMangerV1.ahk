@@ -24,7 +24,7 @@ AppOpenerMangerV1(appName , appPath , kill := 0){
     }
     else if WinExist(appName)
         WinActivate(appName)
-    e   lse
+    else
         Run(appPath)
 
 }
