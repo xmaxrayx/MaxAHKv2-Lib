@@ -14,16 +14,17 @@
  * @param {String} kill  close , kill
  */
 AppOpenerMangerV1(appName , appPath , kill := 0){
-    if WinActive(appName)
+    if WinActive(appName){
         if kill == 0 
             WinMinimize(appName)
         if kill==1  ;|| kill =~ "!)close"
-            WinClose
+            WinClose(appName)
         else if kill==2 ;|| kill=~ "!)kill"
-            WinKill(appName) 
+            WinKill(appName)
+    }
     else if WinExist(appName)
         WinActivate(appName)
-    else
+    e   lse
         Run(appPath)
 
 }
