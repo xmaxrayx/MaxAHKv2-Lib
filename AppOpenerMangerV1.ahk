@@ -17,9 +17,9 @@ AppOpenerMangerV1(appName , appPath , kill := 0){
     if WinActive(appName)
         if kill == 0 
             WinMinimize(appName)
-        if kill==1  || kill =~ "!)close"
+        if kill==1  ;|| kill =~ "!)close"
             WinClose
-        else if kill==2 || kill=~ "!)kill"
+        else if kill==2 ;|| kill=~ "!)kill"
             WinKill(appName) 
     else if WinExist(appName)
         WinActivate(appName)

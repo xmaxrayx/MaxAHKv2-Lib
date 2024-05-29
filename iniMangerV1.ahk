@@ -4,10 +4,12 @@
 ;[Laptop HQ] @xMaxrayx @Unbreakable-ray [Code : ReBorn]   at 13:41:10  on 20/4/2024   (24H Format)  (UTC +2) 	 {Can we prove we are stronger than before?}
 ;[Laptop HQ] @xMaxrayx @Unbreakable-ray [Code : ReBorn]   at 08:54:33  on 29/5/2024   (24H Format)  (UTC +2) 	 {Can we prove we are stronger than before?}
 
+; l := iniMangerV1()
 
 
-; day := ini("day","1--","week")
-; tomoory := ini("tommory","1--","week")
+; l.do("day","1--","week")
+; day := iniV1("day","1--","week")
+; ; tomoory := ini("tommory","1--","week")
 
 
 
@@ -18,6 +20,7 @@ class iniMangerV1{
     
     ini__fileName := "settings.ini"
     Ini__path := A_ScriptDir
+    Ini__section := " "
     
     
     SetIniFileName(name){
@@ -31,10 +34,103 @@ class iniMangerV1{
         this.Ini__path := path
     }
 
-    do(masterKey,defaultValue,section){
-        return ini(masterKey, defaultValue ,section, path := this.Ini__path , defaultIniFilename := this.SetIniFileName)
-
+    do(masterKey,defaultValue,section?){
+        return (iniV1(masterKey, defaultValue ,section := this.Ini__section , path := this.Ini__path , defaultIniFilename := this.SetIniFileName))
+         
     }
+
+    SetIniSection(section){
+        this.Ini__section := section
+    }
+
+
+    ; ;/////////////////////////auto-delete
+    ; iniV1(masterKey, defaultValue ,section := "", path := A_ScriptDir , defaultFilename := "settings.ini" ){
+    ;     defaultFilename := ("\"  . defaultFilename)
+    ;     admincounter(){
+    ;         MsgBox "the script has no permission to read the file (higher privliiges needed)"
+    ;     }
+    
+    ;     createFolder_localFunction(path){
+    ;         if path ~= "([a-zA-Z1-9])+\.ini$"{
+    ;             local IniFilename  := RegExMatchInfo
+    ;             RegExMatch(path , "([a-zA-Z1-9])+\.ini$" , &IniFilename )
+    ;             folderPath := RegExReplace(path , IniFilename[0] , "")
+    ;             DirCreate(folderPath)
+    ;         }else{
+    ;             DirCreate(path)
+    ;         }
+    
+    ;     }
+    
+    
+    
+    
+    
+    
+    
+    ;     if (1 == path ~= "\/") || (1 == path ~= "\\") {
+    ;         if  path ~= "([a-zA-Z1-9])+\.ini$"
+    ;             path := path
+    ;         else
+    ;             path := path . defaultFilename
+    ;     }
+    ;     else if 1 == path ~= "\b[a-zA-Z]\:\b"{
+    ;         path := path
+    ;     }
+    ;     else{
+    ;         path := A_ScriptDir . defaultFilename
+    ;     }
+    
+    
+    ;     ;read teh file
+    
+    ;     try {
+            
+    ;         return IniRead(path, section, masterKey)
+    ;     }catch Error as e
+    ;         {   
+    ;             ; MsgBox e.Message
+    ;             if e.Message ~= "i)Access is denied"
+    ;                 admincounter()
+    ;             try { ;fix for folder donn't exit and permission write
+    ;                 FileAppend("", path , "UTF-8")
+                    
+    ;                 IniWrite(defaultValue , path, section, masterKey)
+    ;             }catch Error as e
+    ;             {
+    ;                 MsgBox e.Message
+    ;                 if e.Message ~= "i)The system cannot find the path specified"{
+    ;                     try {
+    ;                         createFolder_localFunction(path)
+    ;                         FileAppend("", path , "UTF-8")
+    ;                         ;IniWrite "this is a new value", "C:\Temp\myfile.ini", "section2", "key"
+    ;                         IniWrite(defaultValue , path, section, masterKey)
+    ;                     }catch Error as e{
+    ;                         if e.Message ~= "i)Access is denied"
+    ;                             {
+    ;                                 admincounter()
+    ;                             }
+    ;                     }
+    ;                 }
+    ;                 else if e.Message ~= "i)Access is denied"{
+    ;                     admincounter()
+    ;                 }else{
+    ;                     MsgBox e.Message
+    ;                 }
+    ;             }
+                
+    ;             return defaultValue
+    
+    ;         }
+    
+    ; }
+    ; ;//////////////////////////////////
+
+
+
+
+
 }
 
 
@@ -48,9 +144,9 @@ class iniMangerV1{
 
 
 
-
-iniV1(masterKey, defaultValue ,section := "", path := A_ScriptDir , defaultFilename := "settings.ini" ){
-    defaultFilename := "\"  . defaultFilename
+iniV1(masterKey, defaultValue ,section?, path := A_ScriptDir , defaultFilename := "settings.ini" ){
+    section := section??""
+    defaultFilename := ("\"  . defaultFilename)
     admincounter(){
         MsgBox "the script has no permission to read the file (higher privliiges needed)"
     }
