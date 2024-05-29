@@ -47,6 +47,7 @@ class musicPlayer {
 
 
     }
+    
 
     setPath(path){
         this.musicplayer__path := path
