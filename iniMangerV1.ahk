@@ -13,122 +13,60 @@
 
 
 
-
+k := iniMangerV1()
+k.do("day","1--","week")
 
 
 class iniMangerV1{
-    
-    ini__fileName := "settings.ini"
-    Ini__path := A_ScriptDir
-    Ini__section := " "
-    
-    
-    SetIniFileName(name){
-        this.ini__fileName
-        name := "/" . name . ".ini"
-        this.ini__fileName
+
+    ini__fileName := "\settings.ini"
+    ini__path := A_ScriptDir
+    ini__section := ""
+
+	IniFileName {
+		get {
+			return this.ini__fileName
+		}
+		set {
+			; fn := trim(value, "\")	; value acts like a hidden parameter that is passed
+			; this.ini__fileName := "\" . fn . "ini"
+            this.ini__fileName := value
+
+		}
+	}
+
+    iniPath {
+
+        get{
+            return this.Ini__path
+        }
+        set{
+            this.Ini__path := value
+        }
+
+    }
+
+    iniSection {
+        set{
+            this.Ini__section := value
+        }
+        get{
+            return this.Ini__section
+        }
+
+
     }
 
 
-    SetIniPath(path){
-        this.Ini__path := path
-    }
 
     do(masterKey,defaultValue,section?){
-        return (iniV1(masterKey, defaultValue ,section := this.Ini__section , path := this.Ini__path , defaultIniFilename := this.SetIniFileName))
-         
+		; changed to iniV1 to match outside function name
+        ; return iniV1(masterKey, defaultValue ,section, this.Ini__path , this.IniFileName)	; the variables are not needed
+        return (iniV1(masterKey, defaultValue ,section := this.iniSection , path := this.iniPath , defaultIniFilename := this.IniFileName))
+        
+        ; or make the arguments consistent
+       ; return iniV1(masterKey, defaultValue ,section, this.Ini__path , this.ini__fileName)
     }
-
-    SetIniSection(section){
-        this.Ini__section := section
-    }
-
-
-    ; ;/////////////////////////auto-delete
-    ; iniV1(masterKey, defaultValue ,section := "", path := A_ScriptDir , defaultFilename := "settings.ini" ){
-    ;     defaultFilename := ("\"  . defaultFilename)
-    ;     admincounter(){
-    ;         MsgBox "the script has no permission to read the file (higher privliiges needed)"
-    ;     }
-    
-    ;     createFolder_localFunction(path){
-    ;         if path ~= "([a-zA-Z1-9])+\.ini$"{
-    ;             local IniFilename  := RegExMatchInfo
-    ;             RegExMatch(path , "([a-zA-Z1-9])+\.ini$" , &IniFilename )
-    ;             folderPath := RegExReplace(path , IniFilename[0] , "")
-    ;             DirCreate(folderPath)
-    ;         }else{
-    ;             DirCreate(path)
-    ;         }
-    
-    ;     }
-    
-    
-    
-    
-    
-    
-    
-    ;     if (1 == path ~= "\/") || (1 == path ~= "\\") {
-    ;         if  path ~= "([a-zA-Z1-9])+\.ini$"
-    ;             path := path
-    ;         else
-    ;             path := path . defaultFilename
-    ;     }
-    ;     else if 1 == path ~= "\b[a-zA-Z]\:\b"{
-    ;         path := path
-    ;     }
-    ;     else{
-    ;         path := A_ScriptDir . defaultFilename
-    ;     }
-    
-    
-    ;     ;read teh file
-    
-    ;     try {
-            
-    ;         return IniRead(path, section, masterKey)
-    ;     }catch Error as e
-    ;         {   
-    ;             ; MsgBox e.Message
-    ;             if e.Message ~= "i)Access is denied"
-    ;                 admincounter()
-    ;             try { ;fix for folder donn't exit and permission write
-    ;                 FileAppend("", path , "UTF-8")
-                    
-    ;                 IniWrite(defaultValue , path, section, masterKey)
-    ;             }catch Error as e
-    ;             {
-    ;                 MsgBox e.Message
-    ;                 if e.Message ~= "i)The system cannot find the path specified"{
-    ;                     try {
-    ;                         createFolder_localFunction(path)
-    ;                         FileAppend("", path , "UTF-8")
-    ;                         ;IniWrite "this is a new value", "C:\Temp\myfile.ini", "section2", "key"
-    ;                         IniWrite(defaultValue , path, section, masterKey)
-    ;                     }catch Error as e{
-    ;                         if e.Message ~= "i)Access is denied"
-    ;                             {
-    ;                                 admincounter()
-    ;                             }
-    ;                     }
-    ;                 }
-    ;                 else if e.Message ~= "i)Access is denied"{
-    ;                     admincounter()
-    ;                 }else{
-    ;                     MsgBox e.Message
-    ;                 }
-    ;             }
-                
-    ;             return defaultValue
-    
-    ;         }
-    
-    ; }
-    ; ;//////////////////////////////////
-
-
-
 
 
 }
@@ -137,16 +75,9 @@ class iniMangerV1{
 
 
 
-
-
-
-
-
-
-
-iniV1(masterKey, defaultValue ,section?, path := A_ScriptDir , defaultFilename := "settings.ini" ){
+iniV1(masterKey, defaultValue ,section?, path := A_ScriptDir , defaultFilename := "settings" ){
     section := section??""
-    defaultFilename := ("\"  . defaultFilename)
+    defaultFilename := ("\"  . defaultFilename . ".ini" )
     admincounter(){
         MsgBox "the script has no permission to read the file (higher privliiges needed)"
     }
@@ -225,6 +156,22 @@ iniV1(masterKey, defaultValue ,section?, path := A_ScriptDir , defaultFilename :
         }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -385,5 +332,129 @@ class iniMangerV1{
 
 ; Value := IniRead("C:\Temp\myfile.ini", "section2", "key")
 ; MsgBox "The value is " Value
+
+*/
+
+
+/*
+
+
+
+class iniMangerV1_old{
+    
+    ini__fileName := "settings.ini"
+    Ini__path := A_ScriptDir
+    Ini__section := " "
+    
+    
+    SetIniFileName(name){
+        
+        name := "/" . name . ".ini"
+        this.ini__fileName := name
+    }
+
+
+    SetIniPath(path){
+        this.Ini__path := path
+    }
+
+    do(masterKey,defaultValue,section?){
+        return (iniV1(masterKey, defaultValue ,section := this.Ini__section , path := this.Ini__path , defaultIniFilename := this.SetIniFileName))
+         
+    }
+
+    SetIniSection(section){
+        this.Ini__section := section
+    }
+
+
+    ; ;/////////////////////////auto-delete
+    ; iniV1(masterKey, defaultValue ,section := "", path := A_ScriptDir , defaultFilename := "settings.ini" ){
+    ;     defaultFilename := ("\"  . defaultFilename)
+    ;     admincounter(){
+    ;         MsgBox "the script has no permission to read the file (higher privliiges needed)"
+    ;     }
+    
+    ;     createFolder_localFunction(path){
+    ;         if path ~= "([a-zA-Z1-9])+\.ini$"{
+    ;             local IniFilename  := RegExMatchInfo
+    ;             RegExMatch(path , "([a-zA-Z1-9])+\.ini$" , &IniFilename )
+    ;             folderPath := RegExReplace(path , IniFilename[0] , "")
+    ;             DirCreate(folderPath)
+    ;         }else{
+    ;             DirCreate(path)
+    ;         }
+    
+    ;     }
+    
+    
+    
+    
+    
+    
+    
+    ;     if (1 == path ~= "\/") || (1 == path ~= "\\") {
+    ;         if  path ~= "([a-zA-Z1-9])+\.ini$"
+    ;             path := path
+    ;         else
+    ;             path := path . defaultFilename
+    ;     }
+    ;     else if 1 == path ~= "\b[a-zA-Z]\:\b"{
+    ;         path := path
+    ;     }
+    ;     else{
+    ;         path := A_ScriptDir . defaultFilename
+    ;     }
+    
+    
+    ;     ;read teh file
+    
+    ;     try {
+            
+    ;         return IniRead(path, section, masterKey)
+    ;     }catch Error as e
+    ;         {   
+    ;             ; MsgBox e.Message
+    ;             if e.Message ~= "i)Access is denied"
+    ;                 admincounter()
+    ;             try { ;fix for folder donn't exit and permission write
+    ;                 FileAppend("", path , "UTF-8")
+                    
+    ;                 IniWrite(defaultValue , path, section, masterKey)
+    ;             }catch Error as e
+    ;             {
+    ;                 MsgBox e.Message
+    ;                 if e.Message ~= "i)The system cannot find the path specified"{
+    ;                     try {
+    ;                         createFolder_localFunction(path)
+    ;                         FileAppend("", path , "UTF-8")
+    ;                         ;IniWrite "this is a new value", "C:\Temp\myfile.ini", "section2", "key"
+    ;                         IniWrite(defaultValue , path, section, masterKey)
+    ;                     }catch Error as e{
+    ;                         if e.Message ~= "i)Access is denied"
+    ;                             {
+    ;                                 admincounter()
+    ;                             }
+    ;                     }
+    ;                 }
+    ;                 else if e.Message ~= "i)Access is denied"{
+    ;                     admincounter()
+    ;                 }else{
+    ;                     MsgBox e.Message
+    ;                 }
+    ;             }
+                
+    ;             return defaultValue
+    
+    ;         }
+    
+    ; }
+    ; ;//////////////////////////////////
+
+
+
+
+
+}
 
 */

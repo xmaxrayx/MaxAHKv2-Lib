@@ -27,4 +27,6 @@ AppOpenerMangerV1(appName , appPath , kill := 0){
     else
         Run(appPath)
 
+
+
 }
