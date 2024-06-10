@@ -11,7 +11,7 @@
 ; PlayMusicFolder("C:\Users\Max_Laptop\Programming\Github\xMaxrayx_Github\MaxWorkstaion-Rev1\KeyRemap\windows\Assists\rembg\done the rembg")
 ; MsgBox randomFile("C:\Users\Max_Laptop\Programming\Github\xMaxrayx_Github\MaxWorkstaion-Rev1\KeyRemap\windows\Assists\rembg\done the rembg")
 
-randomFileFromFolder_v1_(folder , fileFormat := "wav"){
+randomFileFromFolder_v1_(folder , fileFormat := "wav" , debug := 0){
 
     listFiles := []
     Loop Files, folder "\*." fileFormat , "R" 
@@ -19,7 +19,8 @@ randomFileFromFolder_v1_(folder , fileFormat := "wav"){
             listFiles.Push(A_LoopFilePath)
            
         }
-
+        if debug == 1 
+            MsgBox (listFiles[Random(1 , listFiles.Length)])
         return  (listFiles[Random(1 , listFiles.Length)])
         
 

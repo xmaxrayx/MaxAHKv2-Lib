@@ -17,12 +17,14 @@ ForceWaitt
 
 */
 
+CustomMsgBox("Hi")
+CustomMsgBox.Mini("Hi I love you")
 
 
 ;we need to work on "option"
 
-global defaultCustomMsgBoxImagePFP := "C:\Users\max\Desktop\utau utane1 small.jpg"
-global defaultCustomMsgBoxImageBackground := "C:\Users\max\Pictures\Pictures Max\light_gray.png"
+global defaultCustomMsgBoxImagePFP := "C:\Users\Max_Laptop\Pictures\utau_utane_for_xmaxrayx_by_xmaxrayx_dfeqy7o-prsssse.ico"
+global defaultCustomMsgBoxImageBackground := "C:\Users\Max_Laptop\Pictures\00016-2594486303.png" ;"C:\Users\max\Pictures\Pictures Max\light_gray.png"
 ; global defaultTextMainFontOptions := "c464668 s10 "
 ; global defaultTextMainFont := "Segoe UI"
 global defaultTextMainFontOptions := "s8 Norm cBlack"
@@ -57,32 +59,40 @@ ErrorMessageExtended()
 
 
 class CustomMsgBox {
-    __New(text := "Click Ok to continue" , title := A_ScriptName , 
-    option? ,imagePFP := defaultCustomMsgBoxImagePFP , 
-    imageBackground := defaultCustomMsgBoxImageBackground , addCopyButton := false) {
-        
-        ; text := text?? "Click Ok to continue"
-        ; title := title?? A_ScriptName
-        ; imagePFP := imagePFP??  defaultCustomMsgBoxImagePFP
-        ; imageBackground := imageBackground?? defaultCustomMsgBoxImageBackground
-        ; addCopyButton := addCopyButton?? False
+
+    
+    defaultCustomMsgBoxImagePFP := "C:\Users\Max_Laptop\Videos\Captures\utau_utane_for_xmaxrayx_by_xmaxrayx_dfeqy7o-prsssse (2).png"
+    defaultCustomMsgBoxImageBackground :=  "C:\Users\Max_Laptop\Pictures\00016-2594486303.png"
+    defaultForceWait := true
+    forceExtended := 1
+    defaultTextMainFontOptions := "s8 Norm cBlack"
+    defaultTextMainFont := "Segoe UI"
 
 
 
-        ErrorMessage_Fuc(text , title, imagePFP, imageBackground, False , addCopyButton)
-        
+
+    kk(text := "Click Ok to continue" , title := A_ScriptName , 
+    option? ,imagePFP := this.defaultCustomMsgBoxImagePFP , 
+    imageBackground := this.defaultCustomMsgBoxImageBackground ,
+    addCopyButton := false , defaultTextMainFontOptions := "s8 Norm cBlack" , defaultTextMainFont := "Segoe UI"
+    ,forceExtended := 1 ,defaultForceWait := true
+
+    ) {
+
+
+        this.ErrorMessage_Fuc(text , title, imagePFP, imageBackground, False , addCopyButton ,  this.defaultTextMainFont , this.defaultTextMainFontOptions )
+ 
     } ;end of _New of "CustomMsgBox"
 
-    class Mini {
-        __New(text? , title? , option? ,imagePFP?, imageBackground? , addCopyButton?) {
+    Mini(text? , title? , option? ,imagePFP?, imageBackground? , addCopyButton?){
             text := text?? "Click Ok to continue"
             title := title?? A_ScriptName
-            imagePFP := imagePFP??  defaultCustomMsgBoxImagePFP
-            imageBackground := imageBackground?? defaultCustomMsgBoxImageBackground
+            imagePFP := imagePFP??  this.this.defaultCustomMsgBoxImagePFP
+            imageBackground := imageBackground?? this.defaultCustomMsgBoxImageBackground
             addCopyButton := addCopyButton?? False
 
 
-            ErrorMessage_Fuc(text , title, imagePFP, imageBackground, true , addCopyButton)
+            this.ErrorMessage_Fuc(text , title, imagePFP, imageBackground, true , addCopyButton)
         }
 
         static NonStop(text? , title? , option? ,imagePFP?, imageBackground? , addCopyButton?) {
@@ -93,15 +103,173 @@ class CustomMsgBox {
             addCopyButton := addCopyButton?? False
 
 
-            ErrorMessage_Fuc(text , title, imagePFP, imageBackground, true , addCopyButton, , , false) 
+            this.ErrorMessage_Fuc(text , title, imagePFP, imageBackground, true , addCopyButton, , , false) 
 
         }
 
 
 
         
-    }
-} ;end of Main class "CustomMsgBox"
+    
+
+
+
+
+    ErrorMessage_Fuc(text? , title?, imagePFP? , imageBackground?  ,isMini? , addCopyButton? ,fontName? ,fontOptions? , forceWait?){
+    
+        fontName := fontName?? this.defaultTextMainFont
+        fontOptions := fontOptions?? this.defaultTextMainFontOptions
+    
+    
+        ;======================================
+        ;gui build 
+        ;====================================
+        local WidthLengthVariable := WidthLength(text , isMini)
+        local CustomMsgBoxWidth := WidthLengthVariable+10
+        local MyGuiHight := 149
+        
+    
+      
+        CustomGui := Gui()
+        
+        
+        CustomGui.AddPicture("x8 y11 w81 h82" , imagePFP)
+        CustomGui.AddPicture("x0 y" . (MyGuiHight - 45) . "  w" . CustomMsgBoxWidth . " h45" , imageBackground)
+        textMain:= CustomGui.AddText("x103 y17 w" . (WidthLengthVariable - 105) . " h75 Wrap", text)
+        textMain.SetFont( this.defaultTextMainFontOptions, this.defaultTextMainFont)
+        ;CustomGui.AddPicture("x-1 y100 w489 h100" , imageBackground)
+        OkButton := CustomGui.AddButton( "x" . (WidthLengthVariable - (WidthLengthVariable/2.5) ) . " y113  w" . (WidthLengthVariable/2.5) . " h27 Default" ,"OK") 
+        ;OkButton.MarginY(-100)
+        
+        CustomGui.Opt(" -MinimizeBox -MaximizeBox AlwaysOnTop")
+        CustomGui.Title := ErrorMessageTitleMath(title)
+        ;MyGui.MarginY -= 99
+        ;MsgBox MyGui.MarginY
+        CustomGui.Show("Center w" . CustomMsgBoxWidth . "h" . MyGuiHight)
+        
+    
+        ;== gui build func math call=={
+        addCopyButton_GUIBuildMath()
+        ; }===============================
+    
+    
+    
+        ;=================================
+        ;gui build func math
+        ;=================================
+        
+        addCopyButton_GUIBuildMath(){
+        if addCopyButton  == true
+            {
+                CopyButton:= CustomGui.AddButton( "x8 y114 w81 h26 ", "Copy")
+                CopyButton.OnEvent("Click",(*) => G_CopyMSG() )
+    
+            }
+        
+            
+        }
+    
+    
+    
+    
+        
+        ;=================================
+        ;gui bind
+        ;=================================
+        OkButton.OnEvent("Click",(*) => G_Destroy())
+        
+       
+        ;=================================
+        ;gui x gui func
+        ;=================================
+        G_Destroy(){
+            CustomGui.Destroy()
+        }
+        G_CopyMSG(){    
+        local copyOutput := "==[" . (CustomGui.Title) . "]==" . "`n" . (textMain.Text) . "`n==(End)==" 
+        ;+ MsgBox x 
+        A_Clipboard := copyOutput
+        
+        
+        }
+        ;=================================
+        ;gui math func 
+        ;=================================
+        
+        ErrorMessageTitleMath(title)
+        {
+            
+            if title == ""
+                {
+                    title := "Error"
+                }
+            return title
+        }
+    
+        
+        WidthLength(text , isMini)
+        {
+            ; global text
+            ; global isMini
+            if text == "" 
+                {
+                    return 487
+                }
+            else
+                {
+                    local Width :=  ((StrLen(text)) * 3.5)
+                    if isMini == true 
+                    {
+                        if 200 > Width { ;safe code for size
+                            Width := 200 
+                            return Width
+                        }
+                        else {
+                            return Width
+                        }
+                    }
+                    else
+                    {
+                        if 290 > Width { ;safe code for size
+                            Width := 290 
+                            return Width
+                        }
+                        else {
+                            return Width
+                        }
+                    }
+                    
+                }
+            
+        }
+    
+        ; this.defaultForceWait
+        forceWait := forceWait?? this.defaultForceWait
+        if forceWait == true {
+           
+            GuiID := (WinGetID("A"))
+            WinWaitClose(GuiID)
+    
+        }
+    
+        
+    
+    
+    ;md
+    } ;end of func
+    
+
+
+
+
+
+
+
+
+
+
+
+;end of Main class "CustomMsgBox"
 
 
 
@@ -130,160 +298,160 @@ global forceExtended := 2
 ErrorMessageMiniShow()
 {
     global isMini := true
-    ErrorMessageShow_Func()
+    this.ErrorMessageShow_Func()
 }
 
 ErrorMessageShow_Func(){
 global title := A_ScriptName
 global ErrorMessageBackground := "C:\Users\max\Pictures\Pictures Max\light_gray.png"
 global isMini := true
-ErrorMessage_Fuc()
+; ErrorMessage_Fuc() ;? wtf
 }
 
 
-ErrorMessage_Fuc(text? , title?, imagePFP? , imageBackground?  ,isMini? , addCopyButton? ,fontName? ,fontOptions? , forceWait?){
+; ErrorMessage_Fuc(text? , title?, imagePFP? , imageBackground?  ,isMini? , addCopyButton? ,fontName? ,fontOptions? , forceWait?){
     
-    fontName := fontName?? defaultTextMainFont
-    fontOptions := fontOptions?? defaultTextMainFontOptions
+;     fontName := fontName?? this.defaultTextMainFont
+;     fontOptions := fontOptions?? defaultTextMainFontOptions
 
 
 
-    ;======================================
-    ;gui build 
-    ;====================================
-    local WidthLengthVariable := WidthLength(text , isMini)
-    local CustomMsgBoxWidth := WidthLengthVariable+10
-    local MyGuiHight := 149
+;     ;======================================
+;     ;gui build 
+;     ;====================================
+;     local WidthLengthVariable := WidthLength(text , isMini)
+;     local CustomMsgBoxWidth := WidthLengthVariable+10
+;     local MyGuiHight := 149
     
 
   
-    CustomGui := Gui()
+;     CustomGui := Gui()
     
     
-    CustomGui.AddPicture("x8 y11 w81 h82" , imagePFP)
-    CustomGui.AddPicture("x0 y" . (MyGuiHight - 45) . "  w" . CustomMsgBoxWidth . " h45" , imageBackground)
-    textMain:= CustomGui.AddText("x103 y17 w" . (WidthLengthVariable - 105) . " h75 Wrap", text)
-    textMain.SetFont( defaultTextMainFontOptions, defaultTextMainFont)
-    ;CustomGui.AddPicture("x-1 y100 w489 h100" , imageBackground)
-    OkButton := CustomGui.AddButton( "x" . (WidthLengthVariable - (WidthLengthVariable/2.5) ) . " y113  w" . (WidthLengthVariable/2.5) . " h27 Default" ,"OK") 
-    ;OkButton.MarginY(-100)
+;     CustomGui.AddPicture("x8 y11 w81 h82" , imagePFP)
+;     CustomGui.AddPicture("x0 y" . (MyGuiHight - 45) . "  w" . CustomMsgBoxWidth . " h45" , imageBackground)
+;     textMain:= CustomGui.AddText("x103 y17 w" . (WidthLengthVariable - 105) . " h75 Wrap", text)
+;     textMain.SetFont( defaultTextMainFontOptions, defaultTextMainFont)
+;     ;CustomGui.AddPicture("x-1 y100 w489 h100" , imageBackground)
+;     OkButton := CustomGui.AddButton( "x" . (WidthLengthVariable - (WidthLengthVariable/2.5) ) . " y113  w" . (WidthLengthVariable/2.5) . " h27 Default" ,"OK") 
+;     ;OkButton.MarginY(-100)
     
-    CustomGui.Opt(" -MinimizeBox -MaximizeBox AlwaysOnTop")
-    CustomGui.Title := ErrorMessageTitleMath(title)
-    ;MyGui.MarginY -= 99
-    ;MsgBox MyGui.MarginY
-    CustomGui.Show("Center w" . CustomMsgBoxWidth . "h" . MyGuiHight)
+;     CustomGui.Opt(" -MinimizeBox -MaximizeBox AlwaysOnTop")
+;     CustomGui.Title := ErrorMessageTitleMath(title)
+;     ;MyGui.MarginY -= 99
+;     ;MsgBox MyGui.MarginY
+;     CustomGui.Show("Center w" . CustomMsgBoxWidth . "h" . MyGuiHight)
     
 
-    ;== gui build func math call=={
-    addCopyButton_GUIBuildMath()
-    ; }===============================
+;     ;== gui build func math call=={
+;     addCopyButton_GUIBuildMath()
+;     ; }===============================
 
 
 
-    ;=================================
-    ;gui build func math
-    ;=================================
+;     ;=================================
+;     ;gui build func math
+;     ;=================================
     
-    addCopyButton_GUIBuildMath(){
-    if addCopyButton  == true
-        {
-            CopyButton:= CustomGui.AddButton( "x8 y114 w81 h26 ", "Copy")
-            CopyButton.OnEvent("Click",(*) => G_CopyMSG() )
+;     addCopyButton_GUIBuildMath(){
+;     if addCopyButton  == true
+;         {
+;             CopyButton:= CustomGui.AddButton( "x8 y114 w81 h26 ", "Copy")
+;             CopyButton.OnEvent("Click",(*) => G_CopyMSG() )
 
-        }
+;         }
     
         
-    }
+;     }
 
 
 
 
     
-    ;=================================
-    ;gui bind
-    ;=================================
-    OkButton.OnEvent("Click",(*) => G_Destroy())
+;     ;=================================
+;     ;gui bind
+;     ;=================================
+;     OkButton.OnEvent("Click",(*) => G_Destroy())
     
    
-    ;=================================
-    ;gui x gui func
-    ;=================================
-    G_Destroy(){
-        CustomGui.Destroy()
-    }
-    G_CopyMSG(){    
-    local copyOutput := "==[" . (CustomGui.Title) . "]==" . "`n" . (textMain.Text) . "`n==(End)==" 
-    ;+ MsgBox x 
-    A_Clipboard := copyOutput
+;     ;=================================
+;     ;gui x gui func
+;     ;=================================
+;     G_Destroy(){
+;         CustomGui.Destroy()
+;     }
+;     G_CopyMSG(){    
+;     local copyOutput := "==[" . (CustomGui.Title) . "]==" . "`n" . (textMain.Text) . "`n==(End)==" 
+;     ;+ MsgBox x 
+;     A_Clipboard := copyOutput
     
     
-    }
-    ;=================================
-    ;gui math func 
-    ;=================================
+;     }
+;     ;=================================
+;     ;gui math func 
+;     ;=================================
     
-    ErrorMessageTitleMath(title)
-    {
+;     ErrorMessageTitleMath(title)
+;     {
         
-        if title == ""
-            {
-                title := "Error"
-            }
-        return title
-    }
+;         if title == ""
+;             {
+;                 title := "Error"
+;             }
+;         return title
+;     }
 
     
-    WidthLength(text , isMini)
-    {
-        ; global text
-        ; global isMini
-        if text == "" 
-            {
-                return 487
-            }
-        else
-            {
-                local Width :=  ((StrLen(text)) * 3.5)
-                if isMini == true 
-                {
-                    if 200 > Width { ;safe code for size
-                        Width := 200 
-                        return Width
-                    }
-                    else {
-                        return Width
-                    }
-                }
-                else
-                {
-                    if 290 > Width { ;safe code for size
-                        Width := 290 
-                        return Width
-                    }
-                    else {
-                        return Width
-                    }
-                }
+;     WidthLength(text , isMini)
+;     {
+;         ; global text
+;         ; global isMini
+;         if text == "" 
+;             {
+;                 return 487
+;             }
+;         else
+;             {
+;                 local Width :=  ((StrLen(text)) * 3.5)
+;                 if isMini == true 
+;                 {
+;                     if 200 > Width { ;safe code for size
+;                         Width := 200 
+;                         return Width
+;                     }
+;                     else {
+;                         return Width
+;                     }
+;                 }
+;                 else
+;                 {
+;                     if 290 > Width { ;safe code for size
+;                         Width := 290 
+;                         return Width
+;                     }
+;                     else {
+;                         return Width
+;                     }
+;                 }
                 
-            }
+;             }
         
-    }
+;     }
 
-    global defaultForceWait
-    forceWait := forceWait?? defaultForceWait
-    if forceWait == true {
+;     global defaultForceWait
+;     forceWait := forceWait?? defaultForceWait
+;     if forceWait == true {
        
-        GuiID := (WinGetID("A"))
-        WinWaitClose(GuiID)
+;         GuiID := (WinGetID("A"))
+;         WinWaitClose(GuiID)
 
-    }
+;     }
 
     
 
 
-;md
-} ;end of func
+; ;md
+; } ;end of func
 
 
 
@@ -404,3 +572,4 @@ ErrorMessageExtended(){
 } ;end of func
 
 
+}

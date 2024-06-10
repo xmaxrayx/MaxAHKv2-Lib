@@ -21,7 +21,7 @@
 
 
 
-Gui_Warning_v1(message, isTransparentWhenBlink:= true , waitBeforeDisappear := 2000 , enableSound := false ,Fix_X_textStartLocation := 0 , Gui_Wrining_COLOR := "0xff0000" ,blinkColor := "0xffb5b5"  ,
+Warning_label_v1(message, isTransparentWhenBlink:= true , waitBeforeDisappear := 2000 , enableSound := false ,Fix_X_textStartLocation := 0 , Gui_Wrining_COLOR := "0xff0000" ,blinkColor := "0xffb5b5"  ,
 fontOption := "s20 Bold cBlack" , fontName := "Calibri"  , BlinkingDurationCycle := 0 , fadeSpeed := 30) {
     ; blinkColor := "0xffb5b5" ;"0x000000"
 
