@@ -6,7 +6,8 @@
 ;[Laptop HQ] @xMaxrayx @Unbreakable-ray [Code : ReBorn]   at 18:02:29  on 10/6/2024   (24H Format)  (UTC +2) 	 {Can we prove we are stronger than before?}
 
 
-global AHK__python_Musicplayer_py__path := "C:\Users\Max_Laptop\Documents\AutoHotkey\Lib\maxray\musicplayerV1.py"
+; global AHK__python_Musicplayer_py__path := "C:\Users\Max_Laptop\Documents\AutoHotkey\Lib\maxray\musicplayerV1.py"
+global AHK__python_Musicplayer_py__path := A_MyDocuments . "\AutoHotkey\Lib\maxray\musicplayerV1.py"
 
 
 
@@ -15,14 +16,14 @@ global AHK__python_Musicplayer_py__path := "C:\Users\Max_Laptop\Documents\AutoHo
 ; k:: l.play("C:\Users\Max_Laptop\Programming\Github\xMaxrayx_Github\MaxWorkstaion-Rev1\KeyRemap\blender\Assists\Opening Blender")
 
 
-class  randomPickAndPlay___v0_1{
+class  randomPickAndPlay___v0_2{
     avoidName_str := ""
     randomFile := ""
     toggle := 1
     playMethod := 1
-    avoidName_ref := unset
+    avoidName_ref := ""
     regexExpression := "{.+}"
-
+    
 
     ; folder := "C:\Users\Max_Laptop\Programming\Github\xMaxrayx_Github\MaxWorkstaion-Rev1\KeyRemap\blender\Assists\Opening Blender"
     folder := "A_ScriptDir"
@@ -47,8 +48,10 @@ class  randomPickAndPlay___v0_1{
         if this.toggle == 1 {
             this.randomFile := this._randomFileFromFolder_v1_(this.folder)
 
-
-            if RegExMatch(this.randomFile, "{.+}",&this.avoidName_ref) {
+            a :=this.avoidName_ref
+            
+            if RegExMatch(this.randomFile, "{.+}",&a) {
+                this.avoidName_ref  := a
                 this.avoidName_str :=  (this.avoidName_ref[0])
             }else{
 
@@ -87,9 +90,12 @@ class  randomPickAndPlay___v0_1{
 
             this._Play_start(this.randomFile)
 
-
-            if RegExMatch(this.randomFile, "{(.)+}",&this.avoidName_ref) {
+            a := unset
+            if RegExMatch(this.randomFile, "{(.)+}",&a) { ;RegExMatch(this.randomFile, "{(.)+}",&this.avoidName_ref)
+               
+               this.avoidName_ref := a
                 this.avoidName_str :=  (this.avoidName_ref[0])
+                a := 0
             }else{
 
                 this.avoidName_str := this.randomFile
