@@ -25,7 +25,7 @@ randomFileFromFolder_unique__v1_0(folder , fileFormat := "wav" , RegexAvoidExpre
 
         }
 
-        A := (listFiles[Random(1 , listFiles.Length)])
+        A := (listFiles[Random(1 , Integer(listFiles.Length))])
         return A
         ; return  (listFiles[Random(1 , listFiles.Length)])
 

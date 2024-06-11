@@ -9,9 +9,9 @@ global AHK__python_Musicplayer_py__path := "C:\Users\Max_Laptop\Documents\AutoHo
 
 
 
-l := randomPickAndPlay___v0_1()
+; l := randomPickAndPlay___v0_1()
 
-k:: l.play("C:\Users\Max_Laptop\Programming\Github\xMaxrayx_Github\MaxWorkstaion-Rev1\KeyRemap\blender\Assists\Opening Blender")
+; k:: l.play("C:\Users\Max_Laptop\Programming\Github\xMaxrayx_Github\MaxWorkstaion-Rev1\KeyRemap\blender\Assists\Opening Blender")
 
 
 class  randomPickAndPlay___v0_1{
