@@ -5,22 +5,27 @@
 
 
 ;[Laptop HQ] @xMaxrayx @Unbreakable-ray [Code : ReBorn]   at 09:59:22  on 12/6/2024   (24H Format)  (UTC +2) 	 {Can we prove we are stronger than before?}
-; text :=' 
-;     (
-;     C:\Users\Max_Laptop\AppData\Local\Programs\Python\Python310
-;     C:\Users\Max_Laptop\AppData\Local\Programs\Python\Python312
-;     C:\Users\Max_Laptop\AppData\Local\Programs\Python\Python36
-;     C:\Users\Max_Laptop\AppData\Local\Programs\Python\Python37
-;     )'
+
+
+/*
+text :=' 
+    (
+    C:\Users\Max_Laptop\AppData\Local\Programs\Python\Python310
+    C:\Users\Max_Laptop\AppData\Local\Programs\Python\Python312
+    C:\Users\Max_Laptop\AppData\Local\Programs\Python\Python36
+    C:\Users\Max_Laptop\AppData\Local\Programs\Python\Python37
+    )'
 
     
 
 
 
-; MsgBox(RegexGlobalExMatch___1_0(text,"\/|\\Python[0-9]+" , 1))    ; MsgBox text{}
+MsgBox(RegexGlobalExMatch___1_0(text,"\/|\\Python[0-9]+" , 1))    ; MsgBox text{}
+*/
 
 RegexGlobalExMatch___1_0(text,RegexExpression, convertResult_to_String:=0){
 
+    
     regexResult := 0
     ball := 0
     regexMatch__es:= []
