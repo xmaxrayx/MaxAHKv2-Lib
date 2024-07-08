@@ -1,6 +1,6 @@
 
 
-
+;not done need some work
 
 ; ; #Requires AutoHotkey v2.0
 ; ; #SingleInstance Force
