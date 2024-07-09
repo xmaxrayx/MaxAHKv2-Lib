@@ -4,6 +4,9 @@
 #Include <maxray\others\Tebayaki\GetCaretPosEx> ;https://github.com/Tebayaki/AutoHotkeyScripts
 
 
+/*
+
+
 inlineBox_object := inlineBox()  ;
 
 a::
@@ -13,10 +16,18 @@ a::
         ,"Hi. How are you? fine thank you goodbye!"
         ,"hi five , how i can help you?"
         ,"Hi, im sleeping rn good bye, thanks for contacting best customer servers"
+        ,1+1
+        ,2+9/2*77
+        ,FormatTime("dddd MMMM d, yyyy hh:mm:ss tt")
+        ,"Time Is :`n" FormatTime("dddd MMMM d, yyyy hh:mm:ss tt")
+        ,7777
+        ,"i`ni`ni`n`ti"
+        
         
     ]
     ,
-    , "W550"
+    , "Choose1 W550" 
+    
     )
 
 }
@@ -67,7 +78,7 @@ Esc::{
     inlineBox_object.Destroy()
 }
 
-
+*/
 
 class inlineBox {
 
@@ -83,6 +94,7 @@ class inlineBox {
     List__ArrayObject := [1,2,3,"777","car" , 9/3] 
     ,actionForExitedWindow := "Kill"
     ,ListOption := ""
+    ,maxRow := 0
     ,autoShow := 1
     ){
   
@@ -112,16 +124,19 @@ class inlineBox {
         
 
         
-
+        if maxRow == 0{
+            maxRow := this._List__ArrayObject.Length
+            maxRow := " r" maxRow
+        }
         
 
-        this._List_inlineBox__Listbox := this._inlineBox__GUI.AddListBox( this._ListOption ,this._List__ArrayObject)
-        this._List_inlineBox__Listbox.OnEvent("DoubleClick" , clickEvent)
+        this._List_inlineBox__Listbox := this._inlineBox__GUI.AddListBox( this._ListOption . maxRow ,this._List__ArrayObject)
+        this._List_inlineBox__Listbox.OnEvent("DoubleClick" , _List_inlineBox__Listbox___DoubleClick)
 
         this._inlineBox__GUI.Add('Button', 'y-30 x-20 Default')
-        .OnEvent('Click', EnterPressed)
+        .OnEvent('Click', secretButton___Click)
         
-        EnterPressed(*) {    
+        secretButton___Click(*) {    
             A_Clipboard := (this._List_inlineBox__Listbox.text)
             this.Destroy()
             Sleep(50)
@@ -130,11 +145,11 @@ class inlineBox {
         }
 
         
-        if autoShow??0 == 1{
+        if autoShow??1 == 1{
             this.Show()
         }
 
-        clickEvent(ListBox,*){
+        _List_inlineBox__Listbox___DoubleClick(ListBox,*){
             A_Clipboard := (this._List_inlineBox__Listbox.text)
             this.Destroy()
 
@@ -161,7 +176,7 @@ class inlineBox {
         if !(y??0){
             MouseGetPos(,&y)
         }
-        this._inlineBox__GUI.Show("x" x " y" y )
+        this._inlineBox__GUI.Show("x" x " y" y " AutoSize")
 
     }
 
