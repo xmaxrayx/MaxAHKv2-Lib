@@ -257,7 +257,7 @@ class mini_splash___0_2__v {
     }
 
     
-    this.GUI__objet := Gui("+E0x20 -Caption +LastFound +ToolWindow ") 
+    this.GUI__objet := Gui("+E0x20 -Caption AlwaysOnTop +LastFound +ToolWindow ") 
 
     
     switch location??0, 0 {
