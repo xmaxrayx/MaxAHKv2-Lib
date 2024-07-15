@@ -12,7 +12,7 @@ Clip(text:= unset){
     if !IsSet(text){
         A_Clipboard := ""
     }else{
-        A_Clipboard(text)
+        A_Clipboard := (text)
     }
 }
 
@@ -61,3 +61,7 @@ class User {
 
 
 }
+
+
+;///////////////////// Error manger//////////////
+
